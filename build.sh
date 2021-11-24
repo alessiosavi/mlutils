@@ -1,0 +1,1 @@
+rm -rf build && rm -rf dist && rm -rf mlutils.egg-info && python setup.py bdist_wheel && check-wheel-contents dist/ && pip install dist/mlutil* --no-deps --force-reinstall && twine upload --repository testpypi dist/*

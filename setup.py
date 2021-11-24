@@ -1,0 +1,16 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="mlutils",
+    version="0.0.1-rc5",
+    author="alessiosavi",
+    author_email="alessiosavibtc@gmail.com",
+    description="A minimal utility for deal with machine learning",
+    install_requires=[
+        "tensorflow==2.7.0",
+        "pandas==1.3.4",
+        "numpy==1.21.4"
+    ],
+    url='https://github.com/alessiosavi/mlutils',
+    packages=find_packages()
+)
