@@ -95,16 +95,19 @@ def build_model_core(conf: dict) -> tf.keras.Model:
         if conf["model_conf"][i]["layer"] == "LSTM":
             model.add(tf.keras.layers.LSTM(**conf["model_conf"][i]["layer_conf"]))
 
-        if conf["model_conf"][i]["layer"] == "GRU":
+        elif conf["model_conf"][i]["layer"] == "GRU":
             model.add(tf.keras.layers.GRU(**conf["model_conf"][i]["layer_conf"]))
 
-        if conf["model_conf"][i]["layer"] == "DENSE":
-            if conf["model_conf"][i]["layer_conf"]["activation"] == "":
+        elif conf["model_conf"][i]["layer"] == "DENSE":
+            if "activation" not in conf["model_conf"][i]["layer_conf"] or conf["model_conf"][i]["layer_conf"]["activation"] == "":
                 conf["model_conf"][i]["layer_conf"]["activation"] = None
             model.add(tf.keras.layers.Dense(**conf["model_conf"][i]["layer_conf"]))
 
-        if conf["model_conf"][i]["layer"] == "DROPOUT":
+        elif conf["model_conf"][i]["layer"] == "DROPOUT":
             model.add(tf.keras.layers.Dropout(conf["model_conf"][i]["layer_conf"]["rate"]))
+
+        else:
+            raise Exception("Layer {} not managed!".format(conf["model_conf"][i]["layer"]))
 
     model.compile(**conf["compile_conf"])
     model.summary()
@@ -113,11 +116,12 @@ def build_model_core(conf: dict) -> tf.keras.Model:
 
 def fit_model(model, **kwargs) -> tf.keras.Model:
     callback = tf.keras.callbacks.EarlyStopping(
-        monitor="loss", patience=1, restore_best_weights=True
+        monitor="loss", patience=5, restore_best_weights=True
     )
-    if "callback" in kwargs:
+    if "callbacks" in kwargs:
         kwargs["callbacks"].append(callback)
     else:
+        print("Overriding callback: {}".format(callback.__dict__))
         kwargs["callbacks"] = [callback]
 
     if "epochs" not in kwargs:
@@ -128,7 +132,9 @@ def fit_model(model, **kwargs) -> tf.keras.Model:
 
 
 def train_model(conf, x, y, x_test=None, y_test=None, **kwargs):
-    model_arch: str = "model_dir"
+    model_arch: str = "model_dir/"
+    if not os.path.exists(model_arch):
+        os.mkdir(model_arch)
     max_model: str = ""
     for layer_name in conf["model_conf"]:
         model_arch += layer_name["layer"] + "_"

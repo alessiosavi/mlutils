@@ -2,3 +2,4 @@
 build/
 dist/
 mlutils.egg-info/
+**/model_dir/

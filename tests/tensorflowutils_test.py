@@ -2,6 +2,7 @@ import json
 import unittest
 
 import numpy as np
+import tensorflow as tf
 
 from mlutils.tensorflowutils import tensorflowutils
 
@@ -21,7 +22,10 @@ class TestStringMethods(unittest.TestCase):
         y = np.random.rand(100, 1)
         x_test = np.random.rand(2, 60, 1)
         y_test = np.random.rand(2, 1)
-        tensorflowutils.train_model(c, x, y, x_test, y_test, epochs=5, batch_size=64)
+        callback = tf.keras.callbacks.EarlyStopping(
+            monitor="loss", patience=5, restore_best_weights=True
+        )
+        tensorflowutils.train_model(c, x, y, x_test, y_test, epochs=5, batch_size=64, callbacks=[callback])
 
 
 if __name__ == '__main__':

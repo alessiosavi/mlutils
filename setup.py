@@ -2,9 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="mlutils",
-    version="0.0.1-rc5",
+    version="0.0.1-rc12",
     author="alessiosavi",
     author_email="alessiosavibtc@gmail.com",
+    maintainer="alessiosavi",
+    maintainer_email="alessiosavibtc@gmail.com",
     description="A minimal utility for deal with machine learning",
     install_requires=[
         "tensorflow==2.7.0",
