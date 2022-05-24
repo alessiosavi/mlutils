@@ -9,7 +9,7 @@ setup(
     maintainer_email="alessiosavibtc@gmail.com",
     description="A minimal utility for deal with machine learning",
     install_requires=[
-        "tensorflow==2.7.0",
+        "tensorflow==2.7.2",
         "pandas==1.3.4",
         "numpy==1.21.4"
     ],
