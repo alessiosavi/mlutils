@@ -11,7 +11,7 @@ setup(
     install_requires=[
         "tensorflow==2.7.0",
         "pandas==1.3.4",
-        "numpy==1.21.4"
+        "numpy==1.22.0"
     ],
     url='https://github.com/alessiosavi/mlutils',
     packages=find_packages()
